@@ -1,3 +1,10 @@
-#list {
+li {
   list-style-type: none;
+}
+
+#counter {
+  background-color: black;
+  color: white;
+  display: table;
+  padding: 10px;
 }
