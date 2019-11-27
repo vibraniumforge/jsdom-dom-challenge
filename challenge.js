@@ -1,19 +1,47 @@
 document.addEventListener("DOMContentLoaded", () => {
-  startTimer();
+  addEventListenersMethod();
 });
 
+const minus = document.getElementById("minus");
+const plus = document.getElementById("plus");
+const heart = document.getElementById("heart");
+const pause = document.getElementById("pause");
+const likes = document.getElementsByClassName("likes")[0];
+const submitForm = document.getElementById("comment-form");
+const submitBtn = document.getElementById("submit");
+const commentList = document.getElementById("list");
 const counterH1 = document.getElementById("counter");
-document.getElementById("minus").addEventListener("click", decrementTimer);
-document.getElementById("plus").addEventListener("click", incrementTimer);
-document.getElementById("heart").addEventListener("click", likeFx);
-document.getElementById("pause").addEventListener("click", pauseTimer);
-document.getElementById("submit").addEventListener("submit", submitFx);
 
-function startTimer() {
-  setInterval(function() {
-    let currentSeconds = parseInt(counterH1.innerText, 10);
-    counterH1.innerText = currentSeconds + 1;
-  }, 1000);
+function addEventListenersMethod() {
+  submitForm.addEventListener("submit", () => submitFx(event));
+  minus.addEventListener("click", decrementTimer);
+  plus.addEventListener("click", incrementTimer);
+  heart.addEventListener("click", loveFx);
+  pause.addEventListener("click", pauseFx);
+}
+
+let timer = setInterval(function() {
+  counterH1.innerText++;
+}, 1000);
+
+function pauseFx() {
+  if (pause.innerText === "pause") {
+    pause.innerText = "resume";
+    clearInterval(timer);
+    plus.disabled = true;
+    minus.disabled = true;
+    heart.disabled = true;
+    submitBtn.disabled = true;
+  } else {
+    pause.innerText = "pause";
+    plus.disabled = false;
+    minus.disabled = false;
+    heart.disabled = false;
+    submitBtn.disabled = false;
+    timer = setInterval(function() {
+      counterH1.innerText++;
+    }, 1000);
+  }
 }
 
 function incrementTimer() {
@@ -24,21 +52,26 @@ function decrementTimer() {
   counterH1.innerText = parseInt(counterH1.innerText, 10) - 1;
 }
 
-function likeFx() {
-  const time = parseInt(counterH1.innerText, 10);
-  const timeInstance = document.querySelector(`li[data-id=${time}]`);
-  if (timeInstance) {
-    timeInstance.innerText;
+function loveFx() {
+  const time = document.getElementById(`${counterH1.innerText}`);
+  if (time) {
+    time.children[0].innerText++;
+  } else {
+    likes.innerHTML += `<li id=${counter.innerText}>${counter.innerText} is liked <span id=${counter.innerText}>1</span> times.</li>`;
   }
-  const likesList = document.getElementsByClassName("likes");
-
-  const li = document.createElement("li");
-  li.innerText = `${time} has been liked <span>1 time`;
-  li.setAttribute("data-id", time);
-
-  likesList[0].appendChild(li);
 }
 
-function pauseTimer() {}
+function submitFx(event) {
+  event.preventDefault();
+  const commentList = document.getElementById("list");
+  const comment = document.getElementById("comment-input");
 
-function submitFx() {}
+  const p = document.createElement("p");
+  p.innerText = comment.value;
+
+  //   comment.value = "";
+
+  submitForm.reset();
+
+  commentList.appendChild(p);
+}
