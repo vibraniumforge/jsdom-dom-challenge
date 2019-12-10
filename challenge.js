@@ -25,7 +25,7 @@ function addEventListenersMethod() {
 
 let timer = setInterval(function() {
   counterH1.innerText++;
-}, 10000);
+}, 1000);
 
 function pauseFx() {
   if (pause.innerText === "pause") {
